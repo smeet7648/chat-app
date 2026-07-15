@@ -15,27 +15,28 @@ const server = http.createServer(app);
 
 const allowedOrigins = [
   "http://localhost:5173",
-  "https://harmonious-centaur-ed6beb.netlify.app/", 
+  "https://harmonious-centaur-ed6beb.netlify.app",
 ];
 
 app.use(
   cors({
     origin: allowedOrigins,
     methods: ["GET", "POST"],
+    credentials: true,
   }),
 );
+
+app.use(express.json());
 
 const io = new Server(server, {
   cors: {
     origin: allowedOrigins,
     methods: ["GET", "POST"],
+    credentials: true,
   },
 });
 
 const users = {};
-
-app.use(cors());
-app.use(express.json());
 
 mongoose
   .connect(process.env.MONGO_URI)
@@ -51,8 +52,7 @@ io.on("connection", (socket) => {
 
   socket.on("join", (userId) => {
     users[userId] = socket.id;
-
-    console.log("Connected Users:", users);
+    console.log(users);
   });
 
   socket.on("sendMessage", (data) => {
@@ -72,7 +72,6 @@ io.on("connection", (socket) => {
     }
 
     console.log("🔴 User Disconnected");
-    console.log("Connected Users:", users);
   });
 });
 
