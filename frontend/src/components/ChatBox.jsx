@@ -2,7 +2,7 @@ import { useEffect, useRef, useState } from "react";
 import axios from "axios";
 import { io } from "socket.io-client";
 
-const socket = io("http://localhost:5000");
+const socket = io("https://chat-app-1eqw.onrender.com");
 
 function ChatBox({ selectedUser }) {
   const currentUser = JSON.parse(localStorage.getItem("user"));
@@ -35,7 +35,7 @@ function ChatBox({ selectedUser }) {
 
   const loadMessages = async () => {
     const res = await axios.get(
-      `http://localhost:5000/api/messages/${selectedUser._id}`,
+      `https://chat-app-1eqw.onrender.com/api/messages/${selectedUser._id}`,
       {
         headers: {
           Authorization: token,
@@ -57,7 +57,7 @@ function ChatBox({ selectedUser }) {
 
     // Save in MongoDB
     await axios.post(
-      "http://localhost:5000/api/messages",
+      "https://chat-app-1eqw.onrender.com/api/messages",
       message,
       {
         headers: {

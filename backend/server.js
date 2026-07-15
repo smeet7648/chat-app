@@ -13,9 +13,21 @@ const messageRoutes = require("./routes/message");
 const app = express();
 const server = http.createServer(app);
 
+const allowedOrigins = [
+  "http://localhost:5173",
+  "https://harmonious-centaur-ed6beb.netlify.app/", 
+];
+
+app.use(
+  cors({
+    origin: allowedOrigins,
+    methods: ["GET", "POST"],
+  }),
+);
+
 const io = new Server(server, {
   cors: {
-    origin: "http://localhost:5173",
+    origin: allowedOrigins,
     methods: ["GET", "POST"],
   },
 });
@@ -44,7 +56,6 @@ io.on("connection", (socket) => {
   });
 
   socket.on("sendMessage", (data) => {
-
     const receiverSocket = users[data.receiver];
 
     if (receiverSocket) {

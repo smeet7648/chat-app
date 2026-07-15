@@ -17,7 +17,7 @@ function Home() {
 
   const loadUsers = async () => {
     try {
-      const res = await axios.get("http://localhost:5000/api/users", {
+      const res = await axios.get("https://chat-app-1eqw.onrender.com/api/users", {
         headers: {
           Authorization: token,
         },
